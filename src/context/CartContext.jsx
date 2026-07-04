@@ -4,6 +4,8 @@ import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
+const BASE_URL = 'https://gearforge-server-production.up.railway.app/api';
+
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(null);
   const [cartCount, setCartCount] = useState(0);
@@ -20,7 +22,7 @@ export const CartProvider = ({ children }) => {
       return;
     }
     try {
-      const { data } = await axios.get('http://localhost:5000/api/cart', getHeaders());
+      const { data } = await axios.get(`${BASE_URL}/cart`, getHeaders());
       setCart(data);
       setCartCount(data.items?.length || 0);
     } catch (error) {
@@ -34,7 +36,7 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (productId, quantity = 1) => {
     const { data } = await axios.post(
-      'http://localhost:5000/api/cart',
+      `${BASE_URL}/cart`,
       { productId, quantity },
       getHeaders()
     );
@@ -44,7 +46,7 @@ export const CartProvider = ({ children }) => {
 
   const updateCartItem = async (itemId, quantity) => {
     const { data } = await axios.put(
-      `http://localhost:5000/api/cart/${itemId}`,
+      `${BASE_URL}/cart/${itemId}`,
       { quantity },
       getHeaders()
     );
@@ -54,7 +56,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (itemId) => {
     const { data } = await axios.delete(
-      `http://localhost:5000/api/cart/${itemId}`,
+      `${BASE_URL}/cart/${itemId}`,
       getHeaders()
     );
     setCart(data);
