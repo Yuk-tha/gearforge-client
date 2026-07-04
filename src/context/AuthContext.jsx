@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
+const BASE_URL = 'https://gearforge-server-production.up.railway.app/api';
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const { data } = await axios.post('http://localhost:5000/api/auth/login', {
+    const { data } = await axios.post(`${BASE_URL}/auth/login`, {
       email,
       password,
     });
@@ -26,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (name, email, password) => {
-    const { data } = await axios.post('http://localhost:5000/api/auth/register', {
+    const { data } = await axios.post(`${BASE_URL}/auth/register`, {
       name,
       email,
       password,
